@@ -1,26 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ListOfTypes from './ListOfTypes';
+import ListOfRestaurants from './ListOfRestaurants';
+import ListOfMenuItems from './ListOfMenuItems';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      typeOfRest: '',
+      nameOfRest: ''
+    }
+  }
+  render(){
+    return (
+      <div className="App">
+        <header className="App-header">
+          <ListOfTypes restaurantChooser={this._fetchMeRestaurants} />
+          {this.state.typeOfRest? <ListOfRestaurants restType={this.state.typeOfRest} handHand={this._fetchMeMenu} /> : <></>}
+          {this.state.nameOfRest? <ListOfMenuItems menuChoice={this.state.nameOfRest} restType={this.state.typeOfRest} /> : <></>}
+        </header>
+      </div>
+    );
+  }
+
+  _fetchMeRestaurants = (e) => {
+    this.setState({
+        typeOfRest: e.target.value,
+        nameOfRest: ''
+
+    });
+  }
+  _fetchMeMenu = (e) => {
+    this.setState({
+        nameOfRest: e.target.value
+    });
+  }
 }
 
 export default App;
+
